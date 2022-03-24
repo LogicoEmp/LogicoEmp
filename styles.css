@@ -1,0 +1,84 @@
+h4 {
+    font-family: "Lucida Handwriting", sans-serif;
+    color: blue;
+    padding: 50px;
+}
+
+body {
+  background-color: khaki;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block
+}
+
+.std {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+table {
+    width: 70%;
+}
+
+.cir {
+    border-radius: 50%;
+    border: solid;
+}
+
+th {
+    text-align: center;
+    padding: 30px;
+}
+
+#cards th {
+    border: 1px solid #ddd;
+    padding: 20px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+button {
+    height: 300px;
+    width: 200px;
+}
+
+#red {
+    background-color: red
+}
+
+.collapsible {
+  background-color: khaki;
+  color: black;
+  cursor: pointer;
+  width: 100%;
+  height: 50px;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.content {
+  padding: 0 50px;
+  display: none;
+  overflow: hidden;
+  background-color: khaki;
+}
+
+.active, .collapsible:hover {
+  background-color: lightyellow;
+}
+
+.collapsible:after {
+  content: '\02795'; /* Unicode character for "plus" sign (+) */
+  font-size: 13px;
+  float: inherit;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
