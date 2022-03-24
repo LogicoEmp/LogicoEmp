@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Home - Effective Altruism, UC Irvine</title>
+    </head>
+    <body>
+        <table>
+          <tr>
+            <th>
+                <a href="https://ide-3f7b9d62316b4e4baf2c570d73a7d4ad-8080.cs50.ws/index.html">
+                <img width="80" height="80" src="Anteater.png" alt="Anteater">
+                Effective Altruism, UC Irvine</a>
+            </th>
+            <th>
+                <a href="https://ide-3f7b9d62316b4e4baf2c570d73a7d4ad-8080.cs50.ws/index.html">Home</a>
+            </th>
+            <th>
+                <a href="https://ide-3f7b9d62316b4e4baf2c570d73a7d4ad-8080.cs50.ws/fellowship.html">Fellowship</a>
+            </th>
+            <th>
+                <a href="https://ide-3f7b9d62316b4e4baf2c570d73a7d4ad-8080.cs50.ws/join.html">Join</a>
+            </th>
+            <th>
+                <a href="https://ide-3f7b9d62316b4e4baf2c570d73a7d4ad-8080.cs50.ws/team.html">Team</a>
+            </th>
+          </tr>
+        </table>
+        <iframe class="center" width="560" height="315" src="https://www.youtube.com/embed/Diuv3XZQXyc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <br>
+        <br>
+        <br>
+        <h3 class="std">
+            Effective Altruism is about using reason and evidence to figure out how to do the most good.
+        </h3>
+        <h3 class="std">
+            We welcome you to <a href="https://ide-3f7b9d62316b4e4baf2c570d73a7d4ad-8080.cs50.ws/join.html">join</a> our community!
+        </h3>
+    </body>
+</html>
