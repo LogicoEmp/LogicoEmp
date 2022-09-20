@@ -70,7 +70,7 @@ button {
 }
 
 .active, .collapsible:hover {
-  background-color: lightyellow;
+  background-color: lightblue;
 }
 
 .collapsible:after {
