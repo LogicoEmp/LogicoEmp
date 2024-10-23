@@ -1,0 +1,151 @@
+import numpy as np
+import time
+
+class Agent:
+    def __init__(self, name, agent_type, initial_propensity_A=1, initial_propensity_B=1):
+        self.name = name
+        self.agent_type = agent_type  # SRL or VRL
+        self.propensity_A = initial_propensity_A
+        self.propensity_B = initial_propensity_B
+        self.total_propensity = initial_propensity_A + initial_propensity_B
+        self.total_payoff = 0
+
+    def choose_action(self):
+        prob_A = self.propensity_A / self.total_propensity
+        return 'A' if np.random.rand() < prob_A else 'B'
+
+    def update_propensities(self, action, payoff, increase=True):
+        if increase:
+            # Increase propensities
+            if action == 'A':
+                self.propensity_A += 1
+            elif action == 'B':
+                self.propensity_B += 1
+            self.total_propensity += 1
+        else:
+            # Decrease propensities (ensure they don't go below 1)
+            if action == 'A' and self.propensity_A > 1:
+                self.propensity_A -= 1
+            elif action == 'B' and self.propensity_B > 1:
+                self.propensity_B -= 1
+            self.total_propensity = (self.propensity_A + self.propensity_B)
+        self.total_payoff += payoff  # Track total payoff
+
+    def __repr__(self):
+        return f"{self.name} (A: {self.propensity_A}, B: {self.propensity_B}, Total Payoff: {self.total_payoff})"
+
+def generate_payoffs():
+    # Define the possible outcomes for one play
+    payoff_outcomes = [(0, 1), (1, 0)]
+    # Randomly choose a payoff tuple for the entire round (fixed across all plays)
+    return payoff_outcomes[np.random.choice(2, p=[0.5, 0.5])]
+
+
+def create_agents(num_srl, num_vrl):
+    agents = []
+    for i in range(num_srl):
+        agents.append(Agent(f"SRL_{i+1}", "SRL"))
+    for i in range(num_vrl):
+        agents.append(Agent(f"VRL_{i+1}", "VRL"))
+    return agents
+
+
+def run_simulation(num_rounds, num_plays_per_round, num_srl, num_vrl):
+    agents = create_agents(num_srl, num_vrl)
+
+    srl_total_payoff = 0
+    vrl_total_payoff = 0
+
+    for round_num in range(num_rounds):
+        #print(f"Round {round_num+1}")
+
+        # Generate fixed payoffs for the round
+        payoff_A, payoff_B = generate_payoffs()
+
+        for play_num in range(num_plays_per_round):
+            #print(f"Play {play_num+1}")
+            np.random.shuffle(agents)  # Randomise the order in which agents act in each play
+
+            for agent in agents:
+                # Each agent takes action
+                action = agent.choose_action()
+                payoff = payoff_A if action == 'A' else payoff_B
+
+                #print(f"{agent.name} chose action {action} and received payoff {payoff}")
+
+                if payoff > 0:  # Payoff is positive
+                    if agent.agent_type == "SRL":
+                        # Update SRL total payoff and propensities
+                        srl_total_payoff += payoff
+                        agent.update_propensities(action, payoff, increase=True)
+                        #print(f"SRL agent {agent.name} updated propensities to A: {agent.propensity_A}, B: {agent.propensity_B}")
+
+                        # Update propensities of all VRL agents based on SRL's action
+                        for vrl_agent in agents:
+                            if vrl_agent.agent_type == "VRL":
+                                vrl_agent.update_propensities(action, payoff, increase=True)
+                                #print(f"VRL agent {vrl_agent.name} updated propensities to A: {vrl_agent.propensity_A}, B: {vrl_agent.propensity_B}")
+                    else:  # VRL agent
+                        # Update VRL total payoff
+                        vrl_total_payoff += payoff
+
+                        # Update propensities of all other VRLs
+                        for vrl_agent in agents:
+                            if vrl_agent.agent_type == "VRL" and vrl_agent != agent:
+                                vrl_agent.update_propensities(action, payoff, increase=True)
+                                #print(f"Other VRL agent {vrl_agent.name} updated propensities to A: {vrl_agent.propensity_A}, B: {vrl_agent.propensity_B}")
+                else:  # Payoff is not positive
+                    if agent.agent_type == "SRL":
+                        # Decrease propensity of SRL agent of taking SRL's action, unless propensity is 1
+                        agent.update_propensities(action, payoff, increase=False)
+                        #print(f"SRL agent {agent.name} updated propensities to A: {agent.propensity_A}, B: {agent.propensity_B}")
+
+                        # Decrease propensities of all VRL agents of taking SRL's action, unless propensities are 1
+                        for vrl_agent in agents:
+                            if vrl_agent.agent_type == "VRL":
+                                vrl_agent.update_propensities(action, payoff, increase=False)
+                                #print(f"VRL agent {vrl_agent.name} updated propensities to A: {vrl_agent.propensity_A}, B: {vrl_agent.propensity_B}")
+                    else:  # VRL agent
+                        # Decrease propensities of all other VRLs of taking SRL's action, unless propensities are 1
+                        for vrl_agent in agents:
+                            if vrl_agent.agent_type == "VRL" and vrl_agent != agent:
+                                vrl_agent.update_propensities(action, payoff, increase=False)
+                                #print(f"Other VRL agent {vrl_agent.name} updated propensities to A: {vrl_agent.propensity_A}, B: {vrl_agent.propensity_B}")
+
+    return srl_total_payoff / (num_rounds * num_plays_per_round), vrl_total_payoff / (num_rounds * num_plays_per_round)
+
+
+def format_time(seconds):
+    hours, remainder = divmod(seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    result = ""
+    if hours:
+        result += f"{int(hours)} hours "
+    if minutes:
+        result += f"{int(minutes)} minutes "
+    result += f"{seconds:.2f} seconds"
+    return result
+
+
+def run_multiple_simulations(num_simulations, num_rounds, num_plays_per_round, num_srl, num_vrl):
+    start_time = time.time()
+    srl_payoffs = []
+    vrl_payoffs = []
+
+    for _ in range(num_simulations):
+        srl_avg_payoff, vrl_avg_payoff = run_simulation(num_rounds, num_plays_per_round, num_srl, num_vrl)
+        srl_payoffs.append(srl_avg_payoff)
+        vrl_payoffs.append(vrl_avg_payoff)
+
+    # Compute average payoffs across all simulations
+    avg_srl_payoff = np.mean(srl_payoffs) / num_srl
+    avg_vrl_payoff = np.mean(vrl_payoffs) / num_vrl
+
+    print(f"Average SRL Payoff over {num_simulations:,} simulations: {avg_srl_payoff}")
+    print(f"Average VRL Payoff over {num_simulations:,} simulations: {avg_vrl_payoff}")
+
+    print(f"Total simulation time: {format_time(time.time() - start_time)}")
+
+
+# Run the multiple simulations with specified SRL and VRL agents
+run_multiple_simulations(num_simulations=100000, num_rounds=1, num_plays_per_round=20, num_srl=1, num_vrl=1)
