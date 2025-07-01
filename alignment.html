@@ -7,14 +7,36 @@
         <title>Home - Effective Altruism at UC Irvine</title>
     </head>
     <body>
-        <div id="navbar-container"></div>
-
-        <script>
-          fetch('navbar.html')
-            .then(res => res.text())
-            .then(html => {
-              document.getElementById('navbar-container').innerHTML = html;
-            });
+        <table>
+          <tr>
+            <th>
+                <a href="index">
+                <img width="40" height="40" src="anteater.png" alt="Anteater">
+                Effective Altruism at UC Irvine
+                </a>
+            </th>
+            <th>
+                <a href="program">
+                📘 Intro Program
+                </a>
+            </th>
+            <th>
+                <a href="alignment">
+                🤖 <strong>AI Alignment</strong>
+                </a>
+            </th>
+            <th>
+                <a href="join">
+                🤝 Join
+                </a>
+            </th>
+            <th>
+                <a href="team">
+                👥 Team
+                </a>
+            </th>
+          </tr>
+        </table>
         </script>
         <p class="std">
             Most of us in the EA community have come to realise just how big the threat of future general artifical intelligence can be to our world. 
