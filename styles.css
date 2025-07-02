@@ -1,3 +1,18 @@
+.ea-banner {
+  background: #25D366;
+  color: #fff;
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+  z-index: 1000;
+}
+
+.ea-banner a {
+  color: #fff;
+  text-decoration: underline;
+  margin-left: 8px;
+}
+
 h4 {
     font-family: "Lucida Handwriting", sans-serif;
     color: blue;
