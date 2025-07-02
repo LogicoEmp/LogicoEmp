@@ -1,16 +1,22 @@
 .ea-banner {
   background: #25D366;
   color: #fff;
-  padding: 12px;
+  padding: 10px 40px 10px 12px;
   text-align: center;
   font-weight: bold;
-  z-index: 1000;
+  position: relative;
 }
-
 .ea-banner a {
   color: #fff;
   text-decoration: underline;
   margin-left: 8px;
+}
+.ea-banner-close {
+  position: absolute;
+  right: 16px;
+  top: 8px;
+  cursor: pointer;
+  font-size: 22px;
 }
 
 h4 {
