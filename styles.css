@@ -11,13 +11,6 @@
   text-decoration: underline;
   margin-left: 8px;
 }
-.ea-banner-close {
-  position: absolute;
-  right: 16px;
-  top: 8px;
-  cursor: pointer;
-  font-size: 22px;
-}
 
 h4 {
     font-family: "Lucida Handwriting", sans-serif;
